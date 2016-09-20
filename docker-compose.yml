@@ -59,11 +59,6 @@ services:
     networks:
       tetrasol:
     ports:
-      - 8002:8080
+      - 8003:8080
     expose:
       - 8080
-  proxy:
-    image: nginx
-    #build: ./nginx
-    ports:
-      - 8003:80
