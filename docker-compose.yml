@@ -1,0 +1,69 @@
+version: '2'
+
+networks:
+  tetrasol:
+    driver: bridge
+
+services:
+  web_1:
+    image: tetrasol/web_1
+    build: ./nodejs_1
+    hostname: web1
+    domainname: tetrasol.com
+    dns_search:
+      - web2.tetrasol.com
+      - web3.tetrasol.com
+    networks:
+      tetrasol:
+        aliases:
+          - web1.tetrasol.com
+    ports:
+      - 8000:8080
+    expose:
+      - 8080
+  web_2:
+    image: tetrasol/web_2
+    build: ./nodejs_2
+    hostname: web2
+    domainname: tetrasol.com
+    dns_search:
+      - web1.tetrasol.com
+      - web3.tetrasol.com
+    networks:
+      tetrasol:
+        aliases:
+          - web2.tetrasol.com
+    ports:
+      - 8001:8080
+    expose:
+      - 8080
+  web_3:
+    image: tetrasol/web_3
+    build: ./nodejs_3
+    hostname: web3
+    domainname: tetrasol.com
+    dns_search:
+      - web2.tetrasol.com
+      - web1.tetrasol.com
+    networks:
+      tetrasol:
+        aliases:
+          - web3.tetrasol.com
+    ports:
+      - 8002:8080
+    expose:
+      - 8080
+  proxy:
+    image: nginx
+    #build: ./nginx
+    networks:
+      tetrasol:
+    ports:
+      - 8002:8080
+    expose:
+      - 8080
+  proxy:
+    image: nginx
+    #build: ./nginx
+    ports:
+      - 8003:80
